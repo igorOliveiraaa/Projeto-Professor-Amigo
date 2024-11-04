@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Professor Amigo - O Melhor Professor Infantil Virtual</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome para ícones -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Variáveis de cores */
+    :root {
+      --cor-azul: #51a2fd; /* Azul vibrante */
+      --cor-rosa: #faec27; /* Rosa forte */
+      --cor-branco: #FFFFFF; /* Branco */
+      --cor-texto: #333333; /* Preto suave */
+      --cor-secundaria: #6C757D; /* Cinza escuro */
+      --cor-fundo: #F0F8FF; /* Azul muito claro */
+    }
+
+    /* Estilos de corpo */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+      scroll-behavior: smooth;
+      padding-top: 70px; /* Espaço para o Navbar fixo */
+      padding-bottom: 20px; /* Reduzido para minimizar espaço vazio */
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--cor-branco);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: var(--cor-branco);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .navbar-container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      color: var(--cor-azul);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar-logo i {
+      font-size: 28px;
+      color: var(--cor-rosa);
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar-menu a {
+      text-decoration: none;
+      color: var(--cor-texto);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-menu a:hover {
+      color: var(--cor-azul);
+    }
+
+    /* Menu Hambúrguer */
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--cor-texto);
+    }
+
+    @media (max-width: 768px) {
+      .navbar-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--cor-branco);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .navbar-menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    /* Seção Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%; /* Ocupa toda a largura */
+      min-height: 60vh; /* Reduzido de 70vh para 60vh */
+      padding: 10px; /* Reduzido de 20px para 10px */
+      text-align: center;
+      position: relative;
+      background: var(--cor-branco); /* Fundo branco */
+      color: var(--cor-azul); /* Texto azul */
+      margin-top: 10px; /* Reduzido de 20px para 10px */
+    }
+
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px; /* Mantido */
+      margin-bottom: 15px;
+      animation: fadeInDown 1s ease;
+      width: 100%;
+      max-width: 800px;
+      color: var(--cor-azul); /* Garantir que o título seja azul */
+    }
+
+    .hero p {
+      font-size: 18px; /* Mantido */
+      color: var(--cor-secundaria); /* Parágrafo em cinza */
+      margin-bottom: 25px;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .hero button {
+      background: var(--cor-rosa);
+      color: var(--cor-branco);
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 5px 15px rgba(253, 249, 3, 0.4);
+    }
+
+    .hero button:hover {
+      background: #f5b811; /* Tom mais escuro de rosa ao passar o mouse */
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(253, 249, 3, 0.4);
+    }
+
+    /* Imagem do personagem */
+    .hero .character-image {
+      width: 180px; /* Mantido */
+      max-width: 80%;
+      margin-top: 20px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Seções */
+    section {
+      width: 100%; /* Ocupa toda a largura */
+      padding: 40px 20px; /* Reduzido de 60px para 40px */
+      max-width: 1200px;
+      margin: 0 auto 40px auto; /* Reduzido de 60px para 40px */
+    }
+
+    /* Sobre */
+    .about {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      background: var(--cor-branco);
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 40px;
+    }
+
+    .about img {
+      width: 300px;
+      max-width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: slideInLeft 1s ease;
+    }
+
+    .about-content {
+      flex: 1;
+      animation: slideInRight 1s ease;
+    }
+
+    .about-content h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px; /* Mantido */
+      color: var(--cor-azul);
+      margin-bottom: 20px;
+    }
+
+    .about-content p {
+      font-size: 16px; /* Mantido */
+      line-height: 1.6;
+      color: var(--cor-secundaria);
+    }
+
+    /* Recursos */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: var(--cor-branco);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .feature-card i {
+      font-size: 40px;
+      color: var(--cor-azul);
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      color: var(--cor-azul);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 16px;
+      color: var(--cor-secundaria);
+    }
+
+    /* Chat Section */
+    .chat-section {
+      background: var(--cor-branco);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      margin-bottom: 40px; /* Reduzido de 60px para 40px */
+    }
+
+    .chat-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+    }
+
+    .chat-section h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      color: var(--cor-azul);
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease;
+    }
+
+    .chat-section .input-section {
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .chat-section label {
+      font-weight: 600;
+      color: var(--cor-texto);
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    /* Textarea estilizado */
+    .chat-section textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid var(--cor-azul);
+      font-size: 16px;
+      resize: none;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Roboto', sans-serif;
+      background: #F9F9F9;
+      color: var(--cor-texto); /* Garantir legibilidade */
+    }
+
+    .chat-section textarea:focus {
+      outline: none;
+      border-color: var(--cor-rosa);
+      box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+    }
+
+    /* Botão estilizado */
+    .chat-section button {
+      background: var(--cor-azul);
+      color: var(--cor-branco);
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 30px;
+      margin-top: 15px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+    }
+
+    .chat-section button:hover {
+      background: var(--cor-rosa);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(74, 144, 226, 0.4);
+    }
+
+    /* Área de saída com animação de digitação */
+    .output-section {
+      background: #F9F9F9;
+      padding: 25px 20px;
+      border-radius: 15px;
+      border: 2px solid var(--cor-azul);
+      margin-top: 25px;
+      color: var(--cor-texto);
+      font-size: 18px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease;
+      min-height: 100px;
+    }
+
+    .output-section h2 {
+      color: var(--cor-azul);
+      font-size: 24px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Efeito de digitação */
+    .typing {
+      border-right: 2px solid #333;
+      display: inline-block;
+      animation: blink 0.6s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--cor-branco);
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--cor-texto);
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+      position: relative; /* Mantido como relative */
+      width: 100%;
+      margin-top: 20px; /* Reduzido de 40px para 20px */
+    }
+
+    /* Animações */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .about {
+        flex-direction: column;
+      }
+
+      .hero h1 {
+        font-size: 28px; /* Ajuste para dispositivos móveis */
+      }
+
+      .hero p {
+        font-size: 16px; /* Ajuste para dispositivos móveis */
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar-container {
+        padding: 10px 15px;
+      }
+
+      .hero button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .chat-section {
+        padding: 30px 20px;
+        margin-bottom: 20px; /* Reduzido para 20px */
+      }
+
+      .chat-section button {
+        padding: 12px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <i class="fas fa-book"></i> Professor Amigo
+      </div>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="navbar-menu" id="navbar-menu">
+        <a href="#home">Início</a>
+        <a href="#about">Sobre</a>
+        <a href="#features">Recursos</a>
+        <a href="#chat">Me Pergunte</a>
+        <!-- Link de Contato removido -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- Seção Hero -->
+  <section class="hero" id="home">
+    <h1>Bem-vindo ao Professor Amigo</h1>
+    <p>Aprenda de forma divertida e interativa com o seu professor virtual favorito!</p>
+    <button onclick="document.getElementById('chat').scrollIntoView({behavior: 'smooth'});">
+      <i class="fas fa-question-circle"></i> Faça sua pergunta
+    </button>
+    <img src="/professorLousa.png" alt="Professor Amigo" class="character-image">
+  </section>
+
+  <!-- Seção Sobre -->
+  <section class="about" id="about">
+    <img src="/professor.png" alt="Professor Amigo" class="character-image">
+    <div class="about-content">
+      <h2>Sobre o Professor Amigo</h2>
+      <p>
+        O Professor Amigo é uma plataforma educativa desenvolvida para ajudar crianças a esclarecerem suas dúvidas de forma lúdica e interativa. Utilizando inteligência artificial, nosso objetivo é proporcionar um ambiente seguro e amigável onde o aprendizado se torna uma aventura divertida.
+      </p>
+    </div>
+  </section>
+
+  <!-- Seção Recursos -->
+  <section class="features" id="features">
+    <div class="feature-card">
+      <i class="fas fa-lightbulb"></i>
+      <h3>Respostas Inteligentes</h3>
+      <p>Obtenha respostas claras e compreensíveis para suas perguntas em diversas áreas do conhecimento.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-book-open"></i>
+      <h3>Conteúdo Educativo</h3>
+      <p>Explore materiais educativos que tornam o aprendizado mais interessante e eficaz.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-comments"></i>
+      <h3>Interatividade</h3>
+      <p>Interaja com o Professor Amigo de maneira fácil e intuitiva, tornando o aprendizado mais dinâmico.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Segurança</h3>
+      <p>Ambiente seguro e protegido, ideal para crianças explorarem e aprenderem sem preocupações.</p>
+    </div>
+  </section>
+
+  <!-- Seção Chat -->
+  <section class="chat-section" id="chat">
+    <h2>Olá, meu nome é Professor Amigo, como posso te ajudar hoje?</h2>
+    <div class="input-section">
+      <label for="userInput">Qual é sua dúvida?</label>
+      <textarea id="userInput" rows="4" placeholder="Escreva sua pergunta para o Professor Amigo..."></textarea>
+      <button id="sendRequest"><i class="fas fa-paper-plane"></i> Perguntar</button>
+    </div>
+    <div class="output-section">
+      <h2>Resposta do Professor Amigo:</h2>
+      <div id="output"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2024 Professor Amigo. Todos os direitos reservados.
+  </div>
+
+  <script>
+    // Navbar Toggle
+    const hamburger = document.getElementById('hamburger');
+    const navbarMenu = document.getElementById('navbar-menu');
+
+    hamburger.addEventListener('click', () => {
+      navbarMenu.classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Chat Functionality
+    const userInput = document.getElementById('userInput');
+    const output = document.getElementById('output');
+    const sendRequestBtn = document.getElementById('sendRequest');
+
+    async function getChatGPTResponse(prompt) {
+      const apiKey = "YOUR_API_KEY"; // Insira sua chave da API aqui
+      const apiUrl = "https://api.openai.com/v1/chat/completions";
+      
+      output.innerHTML = "<p class='typing'>Professor Amigo está pensando...</p>";
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }]
+          })
+        });
+        
+        const data = await response.json();
+        const reply = data.choices[0].message.content;
+
+        // Exibir resposta com animação de digitação
+        output.innerHTML = "";
+        let i = 0;
+        function typeWriter() {
+          if (i < reply.length) {
+            output.innerHTML += reply.charAt(i);
+            i++;
+            setTimeout(typeWriter, 30);
+          }
+        }
+        typeWriter();
+      } catch (error) {
+        output.innerHTML = "<p>Ocorreu um erro. Tente novamente mais tarde.</p>";
+        console.error("Erro:", error);
+      }
+    }
+
+    sendRequestBtn.addEventListener('click', () => {
+      const prompt = userInput.value.trim();
+      if (prompt) {
+        output.innerHTML = "<p class='typing'>Professor Amigo está pensando...</p>";
+        getChatGPTResponse(prompt);
+      } else {
+        output.innerHTML = "<p>Por favor, escreva sua dúvida.</p>";
+      }
+    });
+
+    // Permitir enviar a pergunta pressionando Enter
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendRequestBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
